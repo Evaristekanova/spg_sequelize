@@ -16,7 +16,7 @@ const postUser = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-const getUser = async (req, res) => {
+const getUsers = async (req, res) => {
   try {
     const users = await User.findAll();
     res.status(200).json({
@@ -66,4 +66,18 @@ const updateUser = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-module.exports = { postUser };
+const deleteUser = async (req, res) => { 
+try {
+    const { id } = req.params;
+    const user = await User.findOne({ where: { id } });
+    if (!user) return res.status(404).json({ error: "User not found" });
+    await User.destroy({ where: { id } });
+    res.status(200).json({
+      status: "success",
+      message: "User deleted successfully",
+    });
+} catch (error) {
+  res.status(500).json({ error: error.message });
+}
+}
+module.exports = { postUser, getUsers, getUserById, updateUser, deleteUser };
