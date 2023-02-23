@@ -48,26 +48,38 @@ const updateUser = async (req, res) => {
     const { firstName, lastName, email } = req.body;
     const user = await User.findOne({ where: { id } });
     if (!user) return res.status(404).json({ error: "User not found" });
-    if (email !== user.email) {
+    if (email || user.email) {
       const duplicate = await User.findOne({ where: { email } });
       if (duplicate)
         return res.status(409).json({ error: "Email already exists" });
       else {
         const aUser = {
-          firstName: firstName || user.firstName,
-          lastName: lastName || user.lastName,
-          email: email || user.email,
+          firstName: firstName,
+          lastName: lastName,
+          email: email,
         };
-        await User.update({ aUser }, { where: { id } });
-        user.save();
+        await User.update(
+          {
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            email: req.body.email,
+          },
+          { where: { id } }
+        );
+        await user.save();
+        res.status(200).json({
+          status: "success",
+          message: "User updated successfully",
+          user: await User.findOne({ where: { id } }),
+        });
       }
     }
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
-const deleteUser = async (req, res) => { 
-try {
+const deleteUser = async (req, res) => {
+  try {
     const { id } = req.params;
     const user = await User.findOne({ where: { id } });
     if (!user) return res.status(404).json({ error: "User not found" });
@@ -76,8 +88,8 @@ try {
       status: "success",
       message: "User deleted successfully",
     });
-} catch (error) {
-  res.status(500).json({ error: error.message });
-}
-}
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 module.exports = { postUser, getUsers, getUserById, updateUser, deleteUser };
