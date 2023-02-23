@@ -1,11 +1,11 @@
-const express = require("express");
-const {
+import express from "express";
+import {
   postUser,
   getUsers,
   getUserById,
   updateUser,
   deleteUser,
-} = require("../controllers/userControllers");
+} from "../controllers/userControllers";
 const router = express.Router();
 
 router.route("/users").get(getUsers).post(postUser);

@@ -10,10 +10,12 @@
     "@babel/cli": "^7.21.0",
     "@babel/core": "^7.21.0",
     "@babel/preset-env": "^7.20.2",
+    "@babel/node": "^7.20.7",
+    "@babel/register": "^7.18.9",
     "nodemon": "^2.0.20"
   },
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "nodemon --exec babel-node src/server.js"
   },
   "name": "spg_practice",
   "version": "1.0.0",

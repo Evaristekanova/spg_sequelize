@@ -1,4 +1,4 @@
-const { User } = require("../models");
+import { User } from "../models";
 
 const postUser = async (req, res) => {
   try {
