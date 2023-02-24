@@ -15,7 +15,8 @@
     "nodemon": "^2.0.20"
   },
   "scripts": {
-    "start": "nodemon --exec babel-node src/server.js"
+    "migrate": "npx sequelize-cli db:migrate",
+    "start": "nodemon --exec babel-node server.js"
   },
   "name": "spg_practice",
   "version": "1.0.0",
