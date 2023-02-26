@@ -1,4 +1,4 @@
-import { User } from "../models";
+import { User, messages } from "../models";
 
 const postUser = async (req, res) => {
   try {
@@ -92,4 +92,20 @@ const deleteUser = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-module.exports = { postUser, getUsers, getUserById, updateUser, deleteUser };
+const allAboutUser = async (req, res) => { 
+  try {
+    const { id } = req.params;
+    const user = await User.findOne({ where: { id } });
+    const message = await messages.findAll({ where: { userId: id } });
+    if (!user) return res.status(404).json({ error: "User not found" });
+    res.status(200).json({
+      status: "success",
+      message: "user found",
+      data:{user,message:message}
+        })
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+
+}
+module.exports = { postUser, getUsers, getUserById, updateUser, deleteUser, allAboutUser };

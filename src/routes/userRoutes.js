@@ -5,6 +5,7 @@ import {
   getUserById,
   updateUser,
   deleteUser,
+  allAboutUser
 } from "../controllers/userControllers";
 const router = express.Router();
 
@@ -14,4 +15,6 @@ router
   .get(getUserById)
   .patch(updateUser)
   .delete(deleteUser);
+
+router.route('/users/:id/message').get(allAboutUser);
 module.exports = router;
